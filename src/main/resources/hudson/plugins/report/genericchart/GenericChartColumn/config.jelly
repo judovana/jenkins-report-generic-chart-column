@@ -1,0 +1,15 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <f:entry field="fileNameGlob" title="Glob pattern for the report file to parse">
+        <f:textbox />
+    </f:entry>
+    <f:entry field="key" title="Key to look for in the report file">
+        <f:textbox />
+    </f:entry>
+    <f:entry field="limit" title="Number of points to show">
+        <f:textbox />
+    </f:entry>
+    <f:entry field="chartColor" title="Color of the chart">
+        <f:textbox />
+    </f:entry>
+</j:jelly>

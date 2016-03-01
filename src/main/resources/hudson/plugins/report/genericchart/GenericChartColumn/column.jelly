@@ -1,0 +1,51 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+    <td>
+        <div>
+            <j:set var="points" value="${it.getReportPoints(job)}" />
+            <j:set var="chartName" value="${it.generateChartName()}" />
+            <j:if test="${points.isEmpty()}">
+                No data yet
+            </j:if>
+            <j:if test="${!points.isEmpty()}">
+                <div id="${chartName}-ChartContainer" style="width: 320px; height: 80px">
+                    <canvas id='${chartName}-Chart' width='320' height='80' style="display: block"></canvas>
+                </div>
+                <script type="text/javascript">
+                    // &lt;![CDATA[
+                    var data = {
+                    labels: [
+                    <j:forEach var="build" items="${points}" varStatus="status">
+                    "${build.buildName}"<j:if test="${!status.last}">,</j:if>
+                    </j:forEach>
+                    ],
+                            datasets: [{
+                            label: "${it.getColumnCaption()}",
+                                    fillColor: "${it.getChartColor()}",
+                                    strokeColor: "${it.getChartColor()}",
+                                    pointColor: "${it.getChartColor()}",
+                                    pointStrokeColor: "#fff",
+                                    pointHighlightFill: "#fff",
+                                    pointHighlightStroke: "${it.getChartColor()}",
+                                    data: [
+                    <j:forEach var="build" items="${points}" varStatus="status">
+                        ${build.value}<j:if test="${!status.last}">,</j:if>
+                    </j:forEach>
+                                    ]}]
+                    };
+                    var options = {
+                        bezierCurve: false,
+                        multiTooltipTemplate: "&lt;%= datasetLabel + \": \" + value %&gt;"
+                    };
+                    var ctx = document.getElementById("${chartName}-Chart").getContext("2d");
+                    var chart = new Chart(ctx).Line(data, options);
+                    document.getElementById("${chartName}-ChartContainer").onclick = function (evt) {
+                        window.open("/${job.url}", "_blank");
+                    };
+                    // ]]&gt;
+                </script>
+            </j:if>
+        </div>
+    </td>
+</j:jelly>
+
