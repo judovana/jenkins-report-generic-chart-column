@@ -163,6 +163,7 @@ public class GenericChartColumn extends ListViewColumn {
         return chartColor;
     }
 
+    @DataBoundSetter
     public void setChartColor(String chartColor) {
         this.chartColor = chartColor;
     }
