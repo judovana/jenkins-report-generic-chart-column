@@ -16,7 +16,7 @@
                     var data = {
                     labels: [
                     <j:forEach var="build" items="${points}" varStatus="status">
-                    "${build.buildName}"<j:if test="${!status.last}">,</j:if>
+                    "${build.buildNumber}"<j:if test="${!status.last}">,</j:if>
                     </j:forEach>
                     ],
                             datasets: [{

@@ -23,18 +23,24 @@
  */
 package hudson.plugins.report.genericchart;
 
-public class ReportPoint {
+public class ChartPoint {
 
     private final String buildName;
+    private final int buildNumber;
     private final int value;
 
-    public ReportPoint(String buildName, int value) {
+    public ChartPoint(String buildName, int buildNumber, int value) {
         this.buildName = buildName;
+        this.buildNumber = buildNumber;
         this.value = value;
     }
 
     public String getBuildName() {
         return buildName;
+    }
+
+    public int getBuildNumber() {
+        return buildNumber;
     }
 
     public int getValue() {

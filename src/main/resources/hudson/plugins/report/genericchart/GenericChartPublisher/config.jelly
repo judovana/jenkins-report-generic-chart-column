@@ -1,0 +1,11 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <f:entry title="Charts" field="charts">
+        <f:hetero-list name="charts" 
+                       hasHeader="true"
+                       descriptors="${descriptor.itemDescriptors}"
+                       items="${instance.charts}"
+                       addCaption="Add Chart"
+                       deleteCaption="Delete Chart"/>
+    </f:entry>
+</j:jelly>
