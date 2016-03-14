@@ -66,12 +66,12 @@ public class PropertiesParser {
             if (run.getResult() == null || run.getResult().isWorseThan(Result.UNSTABLE)) {
                 continue;
             }
-            try {
-                Optional<ChartPoint> optPoint = Files.walk(run.getRootDir().toPath())
+            try (Stream<Path> filesStream = Files.walk(run.getRootDir().toPath()).sequential()) {
+                Optional<ChartPoint> optPoint = filesStream
                         .filter(p -> matcher.matches(p.getFileName()))
-                        .map(p -> lines(p)
-                                .filter(lineValidator)
-                                .findFirst().get())
+                        .map(p -> pathToLine(p, lineValidator))
+                        .filter(o -> o.isPresent())
+                        .map(o -> o.get())
                         .map(s -> new ChartPoint(
                                 run.getDisplayName(),
                                 run.getNumber(),
@@ -80,7 +80,8 @@ public class PropertiesParser {
                 if (optPoint.isPresent()) {
                     list.add(optPoint.get());
                 }
-            } catch (Exception ignore) {
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
             if (list.size() == chart.getLimit()) {
                 break;
@@ -91,12 +92,12 @@ public class PropertiesParser {
         return list;
     }
 
-    private Stream<String> lines(Path path) {
-        try {
-            return Files.lines(path);
-        } catch (Exception ignore) {
+    private Optional<String> pathToLine(Path path, Predicate<String> lineValidator) {
+        try (Stream<String> stream = Files.lines(path)) {
+            return stream.filter(lineValidator).findFirst();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        return Stream.empty();
+        return Optional.empty();
     }
-
 }
