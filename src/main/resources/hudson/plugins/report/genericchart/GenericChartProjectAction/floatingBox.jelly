@@ -1,0 +1,54 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
+    <j:set var="charts" value="${action.charts}" />
+    <j:if test="${!charts.isEmpty()}">
+        <j:forEach var="chart" items="${charts}" varStatus="chartsStatus">
+            <h3 style="font-family: monospace">${chart.title}</h3>
+            <div id="chartContainer${chartsStatus.index}" style="margin-right: 10pt">
+                <canvas id='chart${chartsStatus.index}' width='600' height='300'>
+                </canvas>
+            </div>
+            <script type="text/javascript">
+                // &lt;![CDATA[
+                var data = {
+                labels: [
+                <j:forEach var="build" items="${chart.points}" varStatus="status">
+                "${build.buildName}"<j:if test="${!status.last}">,</j:if>
+                </j:forEach>
+                ],
+                        datasets: [
+                        {
+                        label: "${chart.title}",
+                                fillColor: "${chart.color}",
+                                strokeColor: "${chart.color}",
+                                pointColor: "${chart.color}",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(180,180,180,1)",
+                                data: [
+                <j:forEach var="build" items="${chart.points}" varStatus="status">
+                    ${build.value}<j:if test="${!status.last}">,</j:if>
+                </j:forEach>
+                                ]
+                        }
+                        ]
+                };
+                var options = {
+                bezierCurve: false,
+                        multiTooltipTemplate: "&lt;%= datasetLabel + \": \" + value %&gt;"
+                };
+                var ctx = document.getElementById("chart${chartsStatus.index}").getContext("2d");
+                var jckPassedChart = new Chart(ctx).Line(data, options);
+                var buildsMap = {};
+                <j:forEach var="build" items="${jckReports.reports}" varStatus="status">
+                buildsMap["${build.buildName}"] = "${build.buildNumber}";
+                </j:forEach>
+                document.getElementById("chartContainer${chartsStatus.index}").onclick = function (evt) {
+                var activePoints = jckPassedChart.getPointsAtEvent(evt);
+                window.open(buildsMap[activePoints[0].label], "_blank");
+                };
+                // ]]&gt;
+            </script>
+        </j:forEach>
+    </j:if>
+</j:jelly>

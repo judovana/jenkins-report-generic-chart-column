@@ -24,41 +24,39 @@
 package hudson.plugins.report.genericchart;
 
 import hudson.Extension;
-import hudson.model.Job;
-import hudson.views.ListViewColumn;
-import hudson.views.ListViewColumnDescriptor;
-import java.util.List;
-import java.util.UUID;
+import hudson.model.AbstractDescribableImpl;
+import hudson.model.Descriptor;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
-public class GenericChartColumn extends ListViewColumn {
+public class ChartModel extends AbstractDescribableImpl<ChartModel> {
 
+    private String title;
     private String fileNameGlob;
     private String key;
     private int limit;
-    private String columnCaption;
     private String chartColor;
 
     @DataBoundConstructor
-    public GenericChartColumn(String fileNameGlob, String key, int limit, String columnCaption, String chartColor) {
+    public ChartModel(String title, String fileNameGlob, String key, int limit, String chartColor) {
+        this.title = title;
         this.fileNameGlob = fileNameGlob;
         this.key = key;
         this.limit = limit;
-        this.columnCaption = columnCaption;
         this.chartColor = chartColor;
     }
 
-    public List<ChartPoint> getReportPoints(Job<?, ?> job) {
-        return new PropertiesParser().getReportPoints(job, new ChartModel(key, fileNameGlob, key, limit, chartColor));
+    public String getTitle() {
+        return title;
+    }
+
+    @DataBoundSetter
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getFileNameGlob() {
         return fileNameGlob;
-    }
-
-    public String generateChartName() {
-        return UUID.randomUUID().toString();
     }
 
     @DataBoundSetter
@@ -84,16 +82,6 @@ public class GenericChartColumn extends ListViewColumn {
         this.limit = limit;
     }
 
-    @Override
-    public String getColumnCaption() {
-        return columnCaption;
-    }
-
-    @DataBoundSetter
-    public void setColumnCaption(String columnCaption) {
-        this.columnCaption = columnCaption;
-    }
-
     public String getChartColor() {
         return chartColor;
     }
@@ -103,19 +91,19 @@ public class GenericChartColumn extends ListViewColumn {
         this.chartColor = chartColor;
     }
 
+    @Override
+    public Descriptor<ChartModel> getDescriptor() {
+        return DESCRIPTOR;
+    }
+
     @Extension
-    public static final GenericChartColumnDescriptor DESCRIPTOR = new GenericChartColumnDescriptor();
+    public static final ChartDescriptor DESCRIPTOR = new ChartDescriptor();
 
-    public static class GenericChartColumnDescriptor extends ListViewColumnDescriptor {
-
-        @Override
-        public boolean shownByDefault() {
-            return false;
-        }
+    public static class ChartDescriptor extends Descriptor<ChartModel> {
 
         @Override
         public String getDisplayName() {
-            return "Chart";
+            return "Chart from properties";
         }
 
     }
