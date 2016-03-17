@@ -27,9 +27,9 @@ public class ChartPoint {
 
     private final String buildName;
     private final int buildNumber;
-    private final int value;
+    private final String value;
 
-    public ChartPoint(String buildName, int buildNumber, int value) {
+    public ChartPoint(String buildName, int buildNumber, String value) {
         this.buildName = buildName;
         this.buildNumber = buildNumber;
         this.value = value;
@@ -43,7 +43,7 @@ public class ChartPoint {
         return buildNumber;
     }
 
-    public int getValue() {
+    public String getValue() {
         return value;
     }
 

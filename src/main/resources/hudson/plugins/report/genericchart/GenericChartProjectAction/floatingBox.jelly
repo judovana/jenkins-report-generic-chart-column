@@ -40,7 +40,7 @@
                 var ctx = document.getElementById("chart${chartsStatus.index}").getContext("2d");
                 var jckPassedChart = new Chart(ctx).Line(data, options);
                 var buildsMap = {};
-                <j:forEach var="build" items="${jckReports.reports}" varStatus="status">
+                <j:forEach var="build" items="${chart.points}" varStatus="status">
                 buildsMap["${build.buildName}"] = "${build.buildNumber}";
                 </j:forEach>
                 document.getElementById("chartContainer${chartsStatus.index}").onclick = function (evt) {
