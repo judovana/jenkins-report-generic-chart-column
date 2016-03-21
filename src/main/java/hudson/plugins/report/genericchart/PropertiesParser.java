@@ -54,7 +54,7 @@ public class PropertiesParser {
                 return false;
             }
             try {
-                Integer.parseInt(str.substring(index + 1).trim());
+                Double.parseDouble(str.substring(index + 1).trim());
                 return true;
             } catch (Exception ignore) {
             }
@@ -75,7 +75,7 @@ public class PropertiesParser {
                         .map(s -> new ChartPoint(
                                 run.getDisplayName(),
                                 run.getNumber(),
-                                Integer.parseInt(s.substring(s.indexOf('=') + 1).trim())))
+                                s.substring(s.indexOf('=') + 1).trim()))
                         .findFirst();
                 if (optPoint.isPresent()) {
                     list.add(optPoint.get());
