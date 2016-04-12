@@ -46,8 +46,8 @@ public class PropertiesParser {
             if (str == null || str.trim().isEmpty()) {
                 return false;
             }
-            int index = str.indexOf('=');
-            if (index <= 0) {
+            int index = getBestDelimiterIndex(str);
+            if (index == Integer.MAX_VALUE) {
                 return false;
             }
             if (!str.substring(0, index).trim().equals(chart.getKey().trim())) {
@@ -75,7 +75,7 @@ public class PropertiesParser {
                         .map(s -> new ChartPoint(
                                 run.getDisplayName(),
                                 run.getNumber(),
-                                s.substring(s.indexOf('=') + 1).trim()))
+                                extractValue(s)))
                         .findFirst();
                 if (optPoint.isPresent()) {
                     list.add(optPoint.get());
@@ -92,6 +92,19 @@ public class PropertiesParser {
         return list;
     }
 
+    private int getBestDelimiterIndex(String str) {
+        int index1 = str.indexOf('=');
+        int index2 = str.indexOf(':');
+        if (index1 < 0) {
+            index1 = Integer.MAX_VALUE;
+        }
+        if (index2 < 0) {
+            index2 = Integer.MAX_VALUE;
+        }
+        int index = Math.min(index1, index2);
+        return index;
+    }
+
     private Optional<String> pathToLine(Path path, Predicate<String> lineValidator) {
         try (Stream<String> stream = Files.lines(path)) {
             return stream.filter(lineValidator).findFirst();
@@ -99,5 +112,9 @@ public class PropertiesParser {
             ex.printStackTrace();
         }
         return Optional.empty();
+    }
+
+    private String extractValue(String s) {
+        return s.substring(getBestDelimiterIndex(s) + 1).trim();
     }
 }
