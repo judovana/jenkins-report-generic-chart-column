@@ -59,7 +59,7 @@ public class PropertiesParser {
 
     }
 
-    public ChartPointsWithBlacklist getReportPoints(Job<?, ?> job, ChartModel chart) {
+    public ChartPointsWithBlacklist getReportPointsWithBlacklist(Job<?, ?> job, ChartModel chart) {
         List<ChartPoint> list = new ArrayList<>();
 
         Predicate<String> lineValidator = str -> {
@@ -114,8 +114,7 @@ public class PropertiesParser {
 
         Collections.reverse(list);
 
-        ChartPointsWithBlacklist l = new ChartPointsWithBlacklist(list, blacklisted);
-        return l;
+        return new ChartPointsWithBlacklist(list, blacklisted);
     }
 
     private int getBestDelimiterIndex(String str) {
