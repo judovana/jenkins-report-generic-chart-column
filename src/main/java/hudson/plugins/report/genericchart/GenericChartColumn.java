@@ -50,7 +50,7 @@ public class GenericChartColumn extends ListViewColumn {
     }
 
     public List<ChartPoint> getReportPoints(Job<?, ?> job) {
-        return new PropertiesParser().getReportPoints(job, new ChartModel(key, fileNameGlob, key, limit, chartColor));
+        return new PropertiesParser().getReportPoints(job, new ChartModel(key, fileNameGlob, key, limit, chartColor)).getPoints();
     }
 
     public String getFileNameGlob() {
