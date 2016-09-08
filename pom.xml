@@ -66,5 +66,12 @@
             <version>0.3.2</version>
             <scope>test</scope>
         </dependency>
+	<dependency>
+	  <groupId>org.jenkins-ci.main</groupId>
+	  <artifactId>jenkins-war</artifactId>
+	  <type>war</type>
+	  <version>LATEST</version>
+	  <scope>test</scope>
+	</dependency>
     </dependencies>
 </project>
