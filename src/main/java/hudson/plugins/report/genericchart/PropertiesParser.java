@@ -39,7 +39,27 @@ import java.util.stream.Stream;
 
 public class PropertiesParser {
 
-    public List<ChartPoint> getReportPoints(Job<?, ?> job, ChartModel chart) {
+    List<String> getBlacklisted(Job<?, ?> job, ChartModel chart){
+        int limit = chart.getLimit();
+        List<String> blacklisted = new ArrayList<>(limit);
+        for (Run run : job.getBuilds()){
+            if (run.getResult() == null || run.getResult().isWorseThan(Result.UNSTABLE)) {
+                continue;
+            }
+            if (chart.getResultBlackList() != null && !chart.getResultBlackList().trim().isEmpty()){
+                String[] items = chart.getResultBlackList().split("\\s+");
+                for (String item : items){
+                    if (run.getDisplayName().matches(item)){
+                        blacklisted.add(run.getDisplayName());
+                    }
+                }
+            }
+        }
+        return blacklisted;
+
+    }
+
+    public ChartPointsWithBlacklist getReportPointsWithBlacklist(Job<?, ?> job, ChartModel chart) {
         List<ChartPoint> list = new ArrayList<>();
 
         Predicate<String> lineValidator = str -> {
@@ -62,8 +82,12 @@ public class PropertiesParser {
         };
 
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + chart.getFileNameGlob());
+        List<String> blacklisted = getBlacklisted(job, chart);
         for (Run run : job.getBuilds()) {
             if (run.getResult() == null || run.getResult().isWorseThan(Result.UNSTABLE)) {
+                continue;
+            }
+            if (blacklisted.contains(run.getDisplayName())){
                 continue;
             }
             try (Stream<Path> filesStream = Files.walk(run.getRootDir().toPath()).sequential()) {
@@ -89,7 +113,8 @@ public class PropertiesParser {
         }
 
         Collections.reverse(list);
-        return list;
+
+        return new ChartPointsWithBlacklist(list, blacklisted);
     }
 
     private int getBestDelimiterIndex(String str) {

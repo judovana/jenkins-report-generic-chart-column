@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 user.
+ * Copyright 2016 root.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,30 +25,20 @@ package hudson.plugins.report.genericchart;
 
 import java.util.List;
 
-public class ReportChart {
+public class ChartPointsWithBlacklist {
 
-    private final String title;
-    private final String color;
     private final List<ChartPoint> points;
-    private final List<String> blist;
+    private final List<String> blacklisted;
 
-    public ReportChart(String title, String color, List<ChartPoint> points, List<String> blist) {
-        this.blist = blist;
-        this.title = title;
-        this.color = color;
+    public ChartPointsWithBlacklist(List<ChartPoint> points, List<String> blacklisted){
+        this.blacklisted = blacklisted;
         this.points = points;
     }
 
-    public String getTitle() {
-        return title + " (blacklisted " + blist.size() + ")";
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public List<ChartPoint> getPoints() {
+    public List<ChartPoint> getPoints(){
         return points;
     }
-
+    public List<String> getBlacklist(){
+        return blacklisted;
+    }
 }

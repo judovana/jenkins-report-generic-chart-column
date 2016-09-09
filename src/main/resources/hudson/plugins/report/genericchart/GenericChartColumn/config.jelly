@@ -15,4 +15,7 @@
     <f:entry field="chartColor" title="Color of the chart">
         <f:textbox />
     </f:entry>
+    <f:entry field="resultBlackList" title="Packages blacklisted">
+        <f:textbox />
+    </f:entry>
 </j:jelly>
