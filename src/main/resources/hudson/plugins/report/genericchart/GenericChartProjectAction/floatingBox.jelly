@@ -5,7 +5,7 @@
         <j:forEach var="chart" items="${charts}" varStatus="chartsStatus">
             <h3 style="font-family: monospace">${chart.title}</h3>
             <div id="chartContainer${chartsStatus.index}" style="margin-right: 10pt">
-                <canvas id='chart${chartsStatus.index}' width='600' height='300'>
+                <canvas id='chart${chartsStatus.index}' width='600' height='600'>
                 </canvas>
             </div>
             <script type="text/javascript">
