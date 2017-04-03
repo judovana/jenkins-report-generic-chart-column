@@ -26,17 +26,27 @@ package hudson.plugins.report.genericchart;
 public class ChartPoint {
 
     private final String buildName;
+    private final String buildNameShortened;
     private final int buildNumber;
     private final String value;
 
     public ChartPoint(String buildName, int buildNumber, String value) {
         this.buildName = buildName;
+        if (buildName.length() < 40) {
+            buildNameShortened = buildName;
+        } else {
+            buildNameShortened = buildName.substring(0, 20) + "..." + buildName.substring(buildName.length() - 20, buildName.length() - 1);
+        }
         this.buildNumber = buildNumber;
         this.value = value;
     }
 
     public String getBuildName() {
         return buildName;
+    }
+
+    public String getBuildNameShortened() {
+        return buildNameShortened;
     }
 
     public int getBuildNumber() {
