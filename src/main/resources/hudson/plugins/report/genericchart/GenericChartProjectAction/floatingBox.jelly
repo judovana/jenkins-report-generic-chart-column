@@ -13,7 +13,7 @@
                 var data = {
                 labels: [
                 <j:forEach var="build" items="${chart.points}" varStatus="status">
-                "${build.buildName}"<j:if test="${!status.last}">,</j:if>
+                "${build.buildNameShortened}"<j:if test="${!status.last}">,</j:if>
                 </j:forEach>
                 ],
                         datasets: [
@@ -41,7 +41,7 @@
                 var jckPassedChart = new Chart(ctx).Line(data, options);
                 var buildsMap = {};
                 <j:forEach var="build" items="${chart.points}" varStatus="status">
-                buildsMap["${build.buildName}"] = "${build.buildNumber}";
+                buildsMap["${build.buildNameShortened}"] = "${build.buildNumber}";
                 </j:forEach>
                 document.getElementById("chartContainer${chartsStatus.index}").onclick = function (evt) {
                 var activePoints = jckPassedChart.getPointsAtEvent(evt);
