@@ -53,6 +53,15 @@ public class GenericChartColumn extends ListViewColumn {
         return new PropertiesParser().getReportPointsWithBlacklist(job, new ChartModel(key, fileNameGlob, key, limit, chartColor)).getPoints();
     }
 
+    public String getLatestResult(Job<?, ?> job) {
+        List<ChartPoint> results = getReportPoints(job);
+        if (!results.isEmpty()) {
+            return results.get(results.size() - 1).getValue();
+        } else {
+            return "0";
+        }
+    }
+
     public String getFileNameGlob() {
         return fileNameGlob;
     }

@@ -1,6 +1,6 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
-    <td>
+    <td data="${it.getLatestResult(job)}">
         <div>
             <j:set var="points" value="${it.getReportPoints(job)}" />
             <j:set var="chartName" value="${it.generateChartName()}" />
