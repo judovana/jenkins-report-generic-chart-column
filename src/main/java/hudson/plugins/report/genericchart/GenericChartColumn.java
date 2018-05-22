@@ -39,6 +39,7 @@ public class GenericChartColumn extends ListViewColumn {
     private int limit;
     private String columnCaption;
     private String chartColor;
+    private String resultsBlackList;
 
     @DataBoundConstructor
     public GenericChartColumn(String fileNameGlob, String key, int limit, String columnCaption, String chartColor) {
@@ -50,7 +51,9 @@ public class GenericChartColumn extends ListViewColumn {
     }
 
     public List<ChartPoint> getReportPoints(Job<?, ?> job) {
-        return new PropertiesParser().getReportPointsWithBlacklist(job, new ChartModel(key, fileNameGlob, key, limit, chartColor)).getPoints();
+        ChartModel model = new ChartModel(key, fileNameGlob, key, limit, chartColor);
+        model.setResultBlackList(resultsBlackList);
+        return new PropertiesParser().getReportPointsWithBlacklist(job, model).getPoints();
     }
 
     public String getLatestResult(Job<?, ?> job) {
@@ -129,4 +132,12 @@ public class GenericChartColumn extends ListViewColumn {
 
     }
 
+    @DataBoundSetter
+    public void setResultBlackList(String resultBlackList){
+        this.resultsBlackList = resultBlackList;
+    }
+
+    public String getResultBlackList(){
+        return resultsBlackList;
+    }
 }
