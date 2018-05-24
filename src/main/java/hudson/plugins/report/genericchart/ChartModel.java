@@ -36,8 +36,9 @@ public class ChartModel extends AbstractDescribableImpl<ChartModel> {
     private String key;
     private int limit;
     private String resultsBlackList;
+    private String resultsWhiteList;
     private String chartColor;
-
+    
     @DataBoundConstructor
     public ChartModel(String title, String fileNameGlob, String key, int limit, String chartColor) {
         this.title = title;
@@ -113,9 +114,15 @@ public class ChartModel extends AbstractDescribableImpl<ChartModel> {
     public void setResultBlackList(String resultBlackList){
         this.resultsBlackList = resultBlackList;
     }
+    @DataBoundSetter
+    public void setResultWhiteList(String resultWhiteList){//4
+        this.resultsWhiteList = resultWhiteList;
+    }
 
     public String getResultBlackList(){
         return resultsBlackList;
     }
-
+    public String getResultWhiteList(){//4
+        return resultsWhiteList;
+    }
 }

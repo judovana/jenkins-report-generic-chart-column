@@ -46,7 +46,7 @@ public class GenericChartProjectAction implements Action {
         PropertiesParser parser = new PropertiesParser();
         List<ReportChart> list = charts.stream()
                 .sequential()
-                .map(m -> new ReportChart(m.getTitle(), m.getChartColor(), parser.getReportPointsWithBlacklist(job, m).getPoints(), parser.getReportPointsWithBlacklist(job, m).getBlacklist()))
+                .map(m -> new ReportChart(m.getTitle(), m.getChartColor(), parser.getReportPointsWithBlacklist(job, m).getPoints(), parser.getReportPointsWithBlacklist(job, m).getBlacklist(),parser.getReportPointsWithBlacklist(job, m).getWhitelist()))
                 .filter(r -> r.getPoints() != null && r.getPoints().size() > 0)
                 .collect(Collectors.toList());
         return list;

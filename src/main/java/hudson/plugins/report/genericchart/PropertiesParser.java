@@ -34,36 +34,62 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class PropertiesParser {
 
-    List<String> getBlacklisted(Job<?, ?> job, ChartModel chart){
+    private static interface ListProvider {
+
+        String getList();
+    }
+
+    List<String> getBlacklisted(Job<?, ?> job, final ChartModel chart) {
+        return getList(job, chart, new ListProvider() {
+            @Override
+            public String getList() {
+                return chart.getResultBlackList();
+            }
+        });
+
+    }
+
+    List<String> getWhitelisted(Job<?, ?> job, ChartModel chart) {
+        return getList(job, chart, new ListProvider() {
+            @Override
+            public String getList() {
+                return chart.getResultWhiteList();
+            }
+        });
+
+    }
+
+    private List<String> getList(Job<?, ?> job, ChartModel chart, ListProvider provider) { //3
         int limit = chart.getLimit();
-        List<String> blacklisted = new ArrayList<>(limit);
-        for (Run run : job.getBuilds()){
+        List<String> result = new ArrayList<>(limit);
+        for (Run run : job.getBuilds()) {
             if (run.getResult() == null || run.getResult().isWorseThan(Result.UNSTABLE)) {
                 continue;
             }
-            if (chart.getResultBlackList() != null && !chart.getResultBlackList().trim().isEmpty()){
-                String[] items = chart.getResultBlackList().split("\\s+");
-                for (String item : items){
-                    if (run.getDisplayName().matches(item)){
-                        blacklisted.add(run.getDisplayName());
+            if (provider.getList() != null && !provider.getList().trim().isEmpty()) {
+                String[] items = provider.getList().split("\\s+");
+                for (String item : items) {
+                    if (run.getDisplayName().matches(item)) {
+                        result.add(run.getDisplayName());
                     }
                 }
             }
         }
-        return blacklisted;
+        return result;
 
     }
 
-    public ChartPointsWithBlacklist getReportPointsWithBlacklist(Job<?, ?> job, ChartModel chart) {
+    public ChartPointsWithBlacklist getReportPointsWithBlacklist(Job<?, ?> job, ChartModel chart) { //6
         List<ChartPoint> list = new ArrayList<>();
 
         Predicate<String> lineValidator = str -> {
-            if (str == null || str.trim().isEmpty()) {
+            if (str == null || str.trim().isEmpty()) {                      
                 return false;
             }
             int index = getBestDelimiterIndex(str);
@@ -83,23 +109,28 @@ public class PropertiesParser {
 
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + chart.getFileNameGlob());
         List<String> blacklisted = getBlacklisted(job, chart);
+        List<String> whitelisted = getWhitelisted(job, chart); //2
         for (Run run : job.getBuilds()) {
             if (run.getResult() == null || run.getResult().isWorseThan(Result.UNSTABLE)) {
                 continue;
             }
-            if (blacklisted.contains(run.getDisplayName())){
+            if (blacklisted.contains(run.getDisplayName())) {
                 continue;
             }
+            if (!whitelisted.contains(run.getDisplayName())&&!whitelisted.isEmpty()) { //1
+                continue;
+            }
+            
             try (Stream<Path> filesStream = Files.walk(run.getRootDir().toPath()).sequential()) {
                 Optional<ChartPoint> optPoint = filesStream
-                        .filter(p -> matcher.matches(p.getFileName()))
-                        .map(p -> pathToLine(p, lineValidator))
-                        .filter(o -> o.isPresent())
+                        .filter((Path t) -> matcher.matches(t.getFileName()))
+                        .map((Path t) -> pathToLine(t, lineValidator))
+                        .filter((Optional<String> o) -> o.isPresent())
                         .map(o -> o.get())
                         .map(s -> new ChartPoint(
-                                run.getDisplayName(),
-                                run.getNumber(),
-                                extractValue(s)))
+                        run.getDisplayName(),
+                        run.getNumber(),
+                        extractValue(s)))
                         .findFirst();
                 if (optPoint.isPresent()) {
                     list.add(optPoint.get());
@@ -114,7 +145,7 @@ public class PropertiesParser {
 
         Collections.reverse(list);
 
-        return new ChartPointsWithBlacklist(list, blacklisted);
+        return new ChartPointsWithBlacklist(list, blacklisted, whitelisted);
     }
 
     private int getBestDelimiterIndex(String str) {
