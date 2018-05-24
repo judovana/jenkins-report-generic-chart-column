@@ -115,7 +115,7 @@ public class ChartModel extends AbstractDescribableImpl<ChartModel> {
         this.resultsBlackList = resultBlackList;
     }
     @DataBoundSetter
-    public void setResultWhiteList(String resultWhiteList){//4
+    public void setResultWhiteList(String resultWhiteList){
         this.resultsWhiteList = resultWhiteList;
     }
 

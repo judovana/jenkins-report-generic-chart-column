@@ -38,7 +38,7 @@ public class ReportChart {
         this.title = title;
         this.color = color;
         this.points = points;
-        this.wlist = wlist;     //7
+        this.wlist = wlist;
     }
 
     public String getTitle() {
