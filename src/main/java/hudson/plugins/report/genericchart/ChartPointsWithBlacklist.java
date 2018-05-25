@@ -29,16 +29,25 @@ public class ChartPointsWithBlacklist {
 
     private final List<ChartPoint> points;
     private final List<String> blacklisted;
+    private final List<String> whitelisted;
 
-    public ChartPointsWithBlacklist(List<ChartPoint> points, List<String> blacklisted){
+    public ChartPointsWithBlacklist(List<ChartPoint> points, List<String> blacklisted, List<String> whitelisted) {
         this.blacklisted = blacklisted;
         this.points = points;
+        this.whitelisted = whitelisted;
     }
 
-    public List<ChartPoint> getPoints(){
+    public List<ChartPoint> getPoints() {
         return points;
     }
-    public List<String> getBlacklist(){
+
+    public List<String> getBlacklist() {
         return blacklisted;
     }
+
+    public List<String> getWhitelist() {
+        return whitelisted;
+    }
+    
+
 }
