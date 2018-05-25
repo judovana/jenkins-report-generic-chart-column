@@ -65,7 +65,7 @@ public class PropertiesParser {
 
     }
 
-    private List<String> getList(Job<?, ?> job, ChartModel chart, ListProvider provider) { //3
+    private List<String> getList(Job<?, ?> job, ChartModel chart, ListProvider provider) {
         int limit = chart.getLimit();
         List<String> result = new ArrayList<>(limit);
         for (Run run : job.getBuilds()) {
@@ -85,11 +85,11 @@ public class PropertiesParser {
 
     }
 
-    public ChartPointsWithBlacklist getReportPointsWithBlacklist(Job<?, ?> job, ChartModel chart) { //6
+    public ChartPointsWithBlacklist getReportPointsWithBlacklist(Job<?, ?> job, ChartModel chart) {
         List<ChartPoint> list = new ArrayList<>();
 
         Predicate<String> lineValidator = str -> {
-            if (str == null || str.trim().isEmpty()) {                      
+            if (str == null || str.trim().isEmpty()) {
                 return false;
             }
             int index = getBestDelimiterIndex(str);
@@ -109,7 +109,7 @@ public class PropertiesParser {
 
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + chart.getFileNameGlob());
         List<String> blacklisted = getBlacklisted(job, chart);
-        List<String> whitelisted = getWhitelisted(job, chart); //2
+        List<String> whitelisted = getWhitelisted(job, chart);
         for (Run run : job.getBuilds()) {
             if (run.getResult() == null || run.getResult().isWorseThan(Result.UNSTABLE)) {
                 continue;
@@ -117,20 +117,20 @@ public class PropertiesParser {
             if (blacklisted.contains(run.getDisplayName())) {
                 continue;
             }
-            if (!whitelisted.contains(run.getDisplayName())&&!whitelisted.isEmpty()) { //1
+            if (!whitelisted.contains(run.getDisplayName()) && !whitelisted.isEmpty()) {
                 continue;
             }
-            
+
             try (Stream<Path> filesStream = Files.walk(run.getRootDir().toPath()).sequential()) {
                 Optional<ChartPoint> optPoint = filesStream
-                        .filter((Path t) -> matcher.matches(t.getFileName()))
-                        .map((Path t) -> pathToLine(t, lineValidator))
-                        .filter((Optional<String> o) -> o.isPresent())
+                        .filter((p) -> matcher.matches(p.getFileName()))
+                        .map((p) -> pathToLine(p, lineValidator))
+                        .filter((o) -> o.isPresent())
                         .map(o -> o.get())
                         .map(s -> new ChartPoint(
-                        run.getDisplayName(),
-                        run.getNumber(),
-                        extractValue(s)))
+                                run.getDisplayName(),
+                                run.getNumber(),
+                                extractValue(s)))
                         .findFirst();
                 if (optPoint.isPresent()) {
                     list.add(optPoint.get());

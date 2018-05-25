@@ -33,7 +33,7 @@ public class ReportChart {
     private final List<String> blist;
     private final List<String> wlist;
 
-    public ReportChart(String title, String color, List<ChartPoint> points, List<String> blist,List<String> wlist) {
+    public ReportChart(String title, String color, List<ChartPoint> points, List<String> blist, List<String> wlist) {
         this.blist = blist;
         this.title = title;
         this.color = color;
@@ -42,7 +42,7 @@ public class ReportChart {
     }
 
     public String getTitle() {
-        return title + " (blacklisted " + blist.size() + ")"+" (whitelisted " + wlist.size() + ")";
+        return title + " (blacklisted " + blist.size() + ")" + " (whitelisted " + wlist.size() + ")";
     }
 
     public String getColor() {

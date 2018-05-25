@@ -54,7 +54,7 @@ public class GenericChartColumn extends ListViewColumn {
     public List<ChartPoint> getReportPoints(Job<?, ?> job) {
         ChartModel model = new ChartModel(key, fileNameGlob, key, limit, chartColor);
         model.setResultBlackList(resultsBlackList);
-        model.setResultWhiteList(resultsWhiteList); //5
+        model.setResultWhiteList(resultsWhiteList);
         return new PropertiesParser().getReportPointsWithBlacklist(job, model).getPoints();
     }
 
@@ -135,19 +135,20 @@ public class GenericChartColumn extends ListViewColumn {
     }
 
     @DataBoundSetter
-    public void setResultBlackList(String resultBlackList){
+    public void setResultBlackList(String resultBlackList) {
         this.resultsBlackList = resultBlackList;
     }
 
-    public String getResultBlackList(){
+    public String getResultBlackList() {
         return resultsBlackList;
     }
+
     @DataBoundSetter
-    public void setResultWhiteList(String resultWhiteList){
+    public void setResultWhiteList(String resultWhiteList) {
         this.resultsWhiteList = resultWhiteList;
     }
 
-    public String getResultWhiteList(){
+    public String getResultWhiteList() {
         return resultsWhiteList;
     }
 
