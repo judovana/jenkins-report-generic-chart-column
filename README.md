@@ -71,4 +71,4 @@ The limitations flows from double settings and from fact that each chart can sho
 ## Future work
 We wish to improve whitelist/balcklist feature, so it can be used to generate wievs comparing selected runs across jobs with some kind of neigbrhood
 
-This plugin depends on https://github.com/judovana/jenkins-chartjs-plug
+This plugin depends on https://github.com/judovana/jenkins-chartjs-plugin
