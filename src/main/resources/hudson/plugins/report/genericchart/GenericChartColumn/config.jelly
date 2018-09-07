@@ -21,4 +21,7 @@
     <f:entry field="resultWhiteList" title="Packages whitelisted">
         <f:textbox />
     </f:entry>
+    <f:entry field="rangeAroundWlist" title="Range around whitelisted">
+        <f:textbox />
+    </f:entry>
 </j:jelly>
