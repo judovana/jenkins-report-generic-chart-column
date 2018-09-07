@@ -53,20 +53,24 @@ you could noted, that the graphs are scalled.  Ifyou have run, which escapes the
 ## Project Settings
 Project settings and view settings are separate - with both pros and cons!
 
-![project settings](https://user-images.githubusercontent.com/2904395/43015882-2768c9b6-8c51-11e8-819b-e3005d13fc03.png)
+![project settings](https://user-images.githubusercontent.com/11722903/45221578-e0fbf700-b27f-11e8-97f6-5d1f637bf05c.png)
 Most important is **Glob pattern for the report file to parse**, which lets you specify not absolute (glob) path to your properties file and of course **Key to look for in the report file** which tetls chart what value to render.  **Chart name** and **color** are  cosmetic, **blacklist** and **whitelist** were already described.  **Number of data points to show** is how many successful builds (counted from end) should be displayed.  If you are in doubts, each suspicious field have help.
 
 ## View Settings
 Project settings and view settings are separate - with both pros and cons!
 
-![view settings](https://user-images.githubusercontent.com/2904395/43015884-27a74146-8c51-11e8-9a8e-92dcfba248b8.png)
+![view settings](https://user-images.githubusercontent.com/11722903/45221610-ff61f280-b27f-11e8-864e-7c12b9f23a2b.png)
 You can see that the settings of view are same - thus duplicated with all its pros and cons...
-
-The screenshots are form older version without whitelist and with just few help buttons. This get recently improved, but we were lazy to uplaod new screenshots.
 
 ## Limitations
 
 The limitations flows from double settings and from fact that each chart can show only only one value. The non-shared blacklist/whitelist is a negative which we are working on to improve. One line only is considered as - due toscalled graph - definitely positive.
+
+## Range around whitelisted
+
+Number of points before and after chosen point using whitelist. For example if you have whitelisted 3 and 4 and range is 2 graph will show points 1 2 3 4 5 6.
+![view settings](https://user-images.githubusercontent.com/11722903/45222412-82844800-b282-11e8-8b90-aea118a190fe.png)
+![view settings](https://user-images.githubusercontent.com/11722903/45222438-97f97200-b282-11e8-92c9-b9634ecaf0ee.png)
 
 ## Future work
 We wish to improve whitelist/balcklist feature, so it can be used to generate wievs comparing selected runs across jobs with some kind of neigbrhood
