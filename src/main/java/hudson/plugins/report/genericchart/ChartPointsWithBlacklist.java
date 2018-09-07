@@ -30,11 +30,13 @@ public class ChartPointsWithBlacklist {
     private final List<ChartPoint> points;
     private final List<String> blacklisted;
     private final List<String> whitelisted;
+    private final int whiteListSizeWithoutSurroundings;
 
-    public ChartPointsWithBlacklist(List<ChartPoint> points, List<String> blacklisted, List<String> whitelisted) {
+    public ChartPointsWithBlacklist(List<ChartPoint> points, List<String> blacklisted, List<String> whitelisted, int whiteListSizeWithoutSurroundings) {
         this.blacklisted = blacklisted;
         this.points = points;
         this.whitelisted = whitelisted;
+        this.whiteListSizeWithoutSurroundings = whiteListSizeWithoutSurroundings;
     }
 
     public List<ChartPoint> getPoints() {
@@ -48,6 +50,9 @@ public class ChartPointsWithBlacklist {
     public List<String> getWhitelist() {
         return whitelisted;
     }
-    
+
+    public int getWhiteListSizeWithoutSurroundings() {
+        return whiteListSizeWithoutSurroundings;
+    }
 
 }
