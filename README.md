@@ -68,8 +68,9 @@ The limitations flows from double settings and from fact that each chart can sho
 
 ## Range around whitelisted
 
-Number of points before and after chosen point using whitelist. For example if you have whitelisted 3 and 4 and range is 2 graph will show points 1 2 3 4 5 6.
+Number of points before and after chosen point using whitelist. For example if you have whitelisted 3 and 4 and range is 2 graph will show points 1 2 3 4 5 6 if no one is failed. If some has failed for example 2 graph will show 1 3 4 5 6
 ![view settings](https://user-images.githubusercontent.com/11722903/45222412-82844800-b282-11e8-8b90-aea118a190fe.png)
+Up is without whitelisted and range. Down is with whitelist (1.8.0.172.*) and range (2).
 ![view settings](https://user-images.githubusercontent.com/11722903/45222438-97f97200-b282-11e8-92c9-b9634ecaf0ee.png)
 
 ## Future work
