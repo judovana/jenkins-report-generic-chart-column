@@ -33,18 +33,20 @@ public class ReportChart {
     private final List<String> blist;
     private final List<String> wlist;
     private final int rangeAroundWlist;
+    private final int whiteListSizeWithoutSurroundings;
 
-    public ReportChart(String title, String color, List<ChartPoint> points, List<String> blist, List<String> wlist, int rangeAroundWlist) {
+    public ReportChart(String title, String color, List<ChartPoint> points, List<String> blist, List<String> wlist, int rangeAroundWlist, int whiteListSizeWithoutSurroundings) {
         this.blist = blist;
         this.title = title;
         this.color = color;
         this.points = points;
         this.wlist = wlist;
         this.rangeAroundWlist = rangeAroundWlist;
+        this.whiteListSizeWithoutSurroundings = whiteListSizeWithoutSurroundings;
     }
 
     public String getTitle() {
-        return title + " (blacklisted " + blist.size() + ")" + " (whitelisted " + wlist.size() + ")";
+        return title + " (blacklisted " + blist.size() + ")" + " (whitelisted " + whiteListSizeWithoutSurroundings + "+" + Integer.toString(wlist.size() - whiteListSizeWithoutSurroundings) + ")";
     }
 
     public String getColor() {
@@ -57,6 +59,10 @@ public class ReportChart {
 
     public int getRangeAroundWlist() {
         return rangeAroundWlist;
+    }
+
+    public int getWhiteListSizeWithoutSurroundings() {
+        return whiteListSizeWithoutSurroundings;
     }
 
 }

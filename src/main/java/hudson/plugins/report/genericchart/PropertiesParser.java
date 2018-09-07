@@ -78,6 +78,21 @@ public class PropertiesParser {
 
     }
 
+    int getWhiteListSizeWithoutSurroundings(Job<?, ?> job, ChartModel chart) {
+        return getList(job, chart, new ListProvider() {
+            @Override
+            public String getList() {
+                return chart.getResultWhiteList();
+            }
+
+            @Override
+            public int getSurrounding() {
+                return 0;
+            }
+        }).toArray().length;
+
+    }
+
     private List<String> getList(Job<?, ?> job, ChartModel chart, ListProvider provider) {
         int limit = chart.getLimit();
         Run[] builds = job.getBuilds().toArray(new Run[0]);
@@ -135,6 +150,7 @@ public class PropertiesParser {
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + chart.getFileNameGlob());
         List<String> blacklisted = getBlacklisted(job, chart);
         List<String> whitelisted = getWhitelisted(job, chart);
+        int whiteListSizeWithoutSurroundings = getWhiteListSizeWithoutSurroundings(job, chart);
         for (Run run : job.getBuilds()) {
             if (run.getResult() == null || run.getResult().isWorseThan(Result.UNSTABLE)) {
                 continue;
@@ -170,7 +186,7 @@ public class PropertiesParser {
 
         Collections.reverse(list);
 
-        return new ChartPointsWithBlacklist(list, blacklisted, whitelisted);
+        return new ChartPointsWithBlacklist(list, blacklisted, whitelisted, whiteListSizeWithoutSurroundings);
     }
 
     private int getBestDelimiterIndex(String str) {
