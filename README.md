@@ -70,9 +70,9 @@ The limitations flows from double settings and from fact that each chart can sho
 
 Number of points before and after chosen point using whitelist. For example if you have whitelisted 3 and 4 and range is 2 graph will show points 1 2 3 4 5 6 if no one is failed. If some has failed for example 2 graph will show 1 3 4 5 6. That means failed builds are counted as passed. (TODO FIXME)
 ![view settings](https://user-images.githubusercontent.com/11722903/45222412-82844800-b282-11e8-8b90-aea118a190fe.png)
-Up is without whitelisted and range. Down is with whitelist (1.8.0.172.*) and range (2).
+Up is without whitelisted and range. Down is with whitelist (1.8.0.172.\*) and range (2).
 ![view settings](https://user-images.githubusercontent.com/11722903/45222438-97f97200-b282-11e8-92c9-b9634ecaf0ee.png)
-Up is withis with whitelist (1.8.0.172.*) and range (2). Down is with whitelist (1.8.0.172.*) and without range.
+Up is withis with whitelist (1.8.0.172.\*) and range (2). Down is with whitelist (1.8.0.172.\*) and without range.
 ![view settings](https://user-images.githubusercontent.com/11722903/45223712-ff64f100-b285-11e8-8ba0-3093338c0749.png)
 ## Future work
 We wish to improve whitelist/balcklist feature, so it can be used to generate wievs comparing selected runs across jobs with some kind of neigbrhood
