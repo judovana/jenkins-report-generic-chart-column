@@ -32,13 +32,15 @@ public class ReportChart {
     private final List<ChartPoint> points;
     private final List<String> blist;
     private final List<String> wlist;
+    private final int rangeAroundWlist;
 
-    public ReportChart(String title, String color, List<ChartPoint> points, List<String> blist, List<String> wlist) {
+    public ReportChart(String title, String color, List<ChartPoint> points, List<String> blist, List<String> wlist, int rangeAroundWlist) {
         this.blist = blist;
         this.title = title;
         this.color = color;
         this.points = points;
         this.wlist = wlist;
+        this.rangeAroundWlist = rangeAroundWlist;
     }
 
     public String getTitle() {
@@ -51,6 +53,10 @@ public class ReportChart {
 
     public List<ChartPoint> getPoints() {
         return points;
+    }
+
+    public int getRangeAroundWlist() {
+        return rangeAroundWlist;
     }
 
 }

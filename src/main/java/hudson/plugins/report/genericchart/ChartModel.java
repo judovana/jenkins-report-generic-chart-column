@@ -38,14 +38,16 @@ public class ChartModel extends AbstractDescribableImpl<ChartModel> {
     private String resultsBlackList;
     private String resultsWhiteList;
     private String chartColor;
+    private int rangeAroundWlist;
 
     @DataBoundConstructor
-    public ChartModel(String title, String fileNameGlob, String key, int limit, String chartColor) {
+    public ChartModel(String title, String fileNameGlob, String key, int limit, String chartColor, int rangeAroundWlist) {
         this.title = title;
         this.fileNameGlob = fileNameGlob;
         this.key = key;
         this.limit = limit;
         this.chartColor = chartColor;
+        this.rangeAroundWlist = rangeAroundWlist;
     }
 
     public String getTitle() {
@@ -100,6 +102,15 @@ public class ChartModel extends AbstractDescribableImpl<ChartModel> {
 
     @Extension
     public static final ChartDescriptor DESCRIPTOR = new ChartDescriptor();
+
+    public int getRangeAroundWlist() {
+        return rangeAroundWlist;
+    }
+
+    @DataBoundSetter
+    public void setRangeAroundWlist(int rangeAroundWlist) {
+        this.rangeAroundWlist = rangeAroundWlist;
+    }
 
     public static class ChartDescriptor extends Descriptor<ChartModel> {
 

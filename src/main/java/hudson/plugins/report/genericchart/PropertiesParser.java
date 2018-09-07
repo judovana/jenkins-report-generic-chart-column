@@ -43,6 +43,8 @@ public class PropertiesParser {
     private static interface ListProvider {
 
         String getList();
+
+        int getSurrounding();
     }
 
     List<String> getBlacklisted(Job<?, ?> job, final ChartModel chart) {
@@ -51,6 +53,12 @@ public class PropertiesParser {
             public String getList() {
                 return chart.getResultBlackList();
             }
+
+            @Override
+            public int getSurrounding() {
+                return 0;
+            }
+
         });
 
     }
@@ -61,14 +69,21 @@ public class PropertiesParser {
             public String getList() {
                 return chart.getResultWhiteList();
             }
+
+            @Override
+            public int getSurrounding() {
+                return chart.getRangeAroundWlist();
+            }
         });
 
     }
 
     private List<String> getList(Job<?, ?> job, ChartModel chart, ListProvider provider) {
         int limit = chart.getLimit();
+        Run[] builds = job.getBuilds().toArray(new Run[0]);
         List<String> result = new ArrayList<>(limit);
-        for (Run run : job.getBuilds()) {
+        for (int i = 0; i < builds.length; i++) {
+            Run run = builds[i];
             if (run.getResult() == null || run.getResult().isWorseThan(Result.UNSTABLE)) {
                 continue;
             }
@@ -76,7 +91,17 @@ public class PropertiesParser {
                 String[] items = provider.getList().split("\\s+");
                 for (String item : items) {
                     if (run.getDisplayName().matches(item)) {
-                        result.add(run.getDisplayName());
+                        for (int j = -(provider.getSurrounding()); j < provider.getSurrounding() + 1; j++) {
+                            if (i + j >= 0 && i + j < builds.length) {
+                                /*Preventing duplicates in whitelist. Not because of the graph, there is
+                                already chunk of code preventing from showing duplicity in the graph.
+                                (The final list are recreated again with help of these lists)
+                                Its because lenght of whitelist which is shown over the graph.*/
+                                if (!result.contains(builds[i + j].getDisplayName())) {
+                                    result.add(builds[i + j].getDisplayName());
+                                }
+                            }
+                        }
                     }
                 }
             }

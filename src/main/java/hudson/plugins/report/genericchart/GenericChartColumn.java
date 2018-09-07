@@ -41,18 +41,20 @@ public class GenericChartColumn extends ListViewColumn {
     private String chartColor;
     private String resultsBlackList;
     private String resultsWhiteList;
+    private int rangeAroundWlist;
 
     @DataBoundConstructor
-    public GenericChartColumn(String fileNameGlob, String key, int limit, String columnCaption, String chartColor) {
+    public GenericChartColumn(String fileNameGlob, String key, int limit, String columnCaption, String chartColor, int rangeAroundWlist) {
         this.fileNameGlob = fileNameGlob;
         this.key = key;
         this.limit = limit;
         this.columnCaption = columnCaption;
         this.chartColor = chartColor;
+        this.rangeAroundWlist = rangeAroundWlist;
     }
 
     public List<ChartPoint> getReportPoints(Job<?, ?> job) {
-        ChartModel model = new ChartModel(key, fileNameGlob, key, limit, chartColor);
+        ChartModel model = new ChartModel(key, fileNameGlob, key, limit, chartColor, rangeAroundWlist);
         model.setResultBlackList(resultsBlackList);
         model.setResultWhiteList(resultsWhiteList);
         return new PropertiesParser().getReportPointsWithBlacklist(job, model).getPoints();
