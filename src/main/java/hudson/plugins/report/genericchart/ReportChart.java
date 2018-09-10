@@ -23,6 +23,7 @@
  */
 package hudson.plugins.report.genericchart;
 
+import hudson.model.Job;
 import java.util.List;
 
 public class ReportChart {
@@ -35,7 +36,7 @@ public class ReportChart {
     private final int rangeAroundWlist;
     private final int whiteListSizeWithoutSurroundings;
 
-    public ReportChart(String title, String color, List<ChartPoint> points, List<String> blist, List<String> wlist, int rangeAroundWlist, int whiteListSizeWithoutSurroundings) {
+    private ReportChart(String title, String color, List<ChartPoint> points, List<String> blist, List<String> wlist, int rangeAroundWlist, int whiteListSizeWithoutSurroundings) {
         this.blist = blist;
         this.title = title;
         this.color = color;
@@ -43,6 +44,17 @@ public class ReportChart {
         this.wlist = wlist;
         this.rangeAroundWlist = rangeAroundWlist;
         this.whiteListSizeWithoutSurroundings = whiteListSizeWithoutSurroundings;
+    }
+
+    public static ReportChart createReportChart(ChartModel m, PropertiesParser parser, Job<?, ?> job) {
+        return new ReportChart(
+                m.getTitle(),
+                m.getChartColor(),
+                parser.getReportPointsWithBlacklist(job, m).getPoints(),
+                parser.getReportPointsWithBlacklist(job, m).getBlacklist(),
+                parser.getReportPointsWithBlacklist(job, m).getWhitelist(),
+                m.getRangeAroundWlist(),
+                parser.getReportPointsWithBlacklist(job, m).getWhiteListSizeWithoutSurroundings());
     }
 
     public String getTitle() {
