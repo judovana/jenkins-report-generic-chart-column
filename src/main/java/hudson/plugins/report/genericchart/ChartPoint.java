@@ -34,7 +34,7 @@ public class ChartPoint {
 
     public ChartPoint(String buildName, int buildNumber, String value) {
         this.buildName = buildName;
-        this.buildNameShortened=Chartjs.getShortName(buildName);
+        this.buildNameShortened=Chartjs.getShortName(buildName, buildNumber);
         this.buildNumber = buildNumber;
         this.value = value;
     }
