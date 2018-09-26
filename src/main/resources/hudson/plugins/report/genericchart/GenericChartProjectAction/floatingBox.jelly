@@ -2,6 +2,7 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
     <j:set var="charts" value="${action.charts}" />
     <j:if test="${!charts.isEmpty()}">
+    <script type="text/javascript">var jckPassedChart = {};var buildsMap = {};</script>
         <j:forEach var="chart" items="${charts}" varStatus="chartsStatus">
             <h3 style="font-family: monospace">${chart.title}</h3>
             <div id="chartContainer${chartsStatus.index}" style="margin-right: 10pt">
@@ -38,13 +39,12 @@
                         multiTooltipTemplate: "&lt;%= datasetLabel + \": \" + value %&gt;"
                 };
                 var ctx = document.getElementById("chart${chartsStatus.index}").getContext("2d");
-                var jckPassedChart = new Chart(ctx).Line(data, options);
-                var buildsMap = {};
+                jckPassedChart["chart${chartsStatus.index}"] = new Chart(ctx).Line(data, options);
                 <j:forEach var="build" items="${chart.points}" varStatus="status">
                 buildsMap["${build.buildNameShortened}"] = "${build.buildNumber}";
                 </j:forEach>
                 document.getElementById("chartContainer${chartsStatus.index}").onclick = function (evt) {
-                var activePoints = jckPassedChart.getPointsAtEvent(evt);
+                var activePoints = jckPassedChart["chart${chartsStatus.index}"].getPointsAtEvent(evt);
                 window.open(buildsMap[activePoints[0].label], "_blank");
                 };
                 // ]]&gt;
