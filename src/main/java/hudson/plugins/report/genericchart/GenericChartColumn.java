@@ -154,4 +154,13 @@ public class GenericChartColumn extends ListViewColumn {
         return resultsWhiteList;
     }
 
+    public int getRangeAroundWlist() {
+        return rangeAroundWlist;
+    }
+
+    @DataBoundSetter
+    public void setRangeAroundWlist(int rangeAroundWlist) {
+        this.rangeAroundWlist = rangeAroundWlist;
+    }
+
 }
