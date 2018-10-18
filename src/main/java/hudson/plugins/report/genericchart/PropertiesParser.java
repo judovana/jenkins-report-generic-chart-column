@@ -37,6 +37,8 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
+import java.util.Random;
+
 
 public class PropertiesParser {
 
@@ -46,7 +48,7 @@ public class PropertiesParser {
 
         int getSurrounding();
     }
-
+    Random r = new Random();
     List<String> getBlacklisted(Job<?, ?> job, final ChartModel chart) {
         return getList(job, chart, new ListProvider() {
             @Override
@@ -81,7 +83,7 @@ public class PropertiesParser {
     /*
     Counting white list size without surroundings which is needed in title over the graph
      */
-    int getWhiteListSizeWithoutSurroundings(Job<?, ?> job, ChartModel chart) {
+    List<String> getWhiteListSizeWithoutSurroundings(Job<?, ?> job, ChartModel chart) {
         return getList(job, chart, new ListProvider() {
             @Override
             public String getList() {
@@ -92,7 +94,7 @@ public class PropertiesParser {
             public int getSurrounding() {
                 return 0;
             }
-        }).toArray().length;
+        });
 
     }
 
@@ -170,7 +172,11 @@ public class PropertiesParser {
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + chart.getFileNameGlob());
         List<String> blacklisted = getBlacklisted(job, chart);
         List<String> whitelisted = getWhitelisted(job, chart);
-        int whiteListSizeWithoutSurroundings = getWhiteListSizeWithoutSurroundings(job, chart);
+        List<String> whiteListWithoutSurroundings = getWhiteListSizeWithoutSurroundings(job, chart);
+        List<String> pointsInRangeOfwhitelisted = new ArrayList<>(whitelisted);
+        int whiteListSizeWithoutSurroundings = whiteListWithoutSurroundings.toArray().length;
+        pointsInRangeOfwhitelisted.removeAll(whiteListWithoutSurroundings);
+        
         for (Run run : job.getBuilds()) {
             if (run.getResult() == null || run.getResult().isWorseThan(Result.UNSTABLE)) {
                 continue;
@@ -189,9 +195,10 @@ public class PropertiesParser {
                         .filter((o) -> o.isPresent())
                         .map(o -> o.get())
                         .map(s -> new ChartPoint(
-                                run.getDisplayName(),
-                                run.getNumber(),
-                                extractValue(s)))
+                        run.getDisplayName(),
+                        run.getNumber(),
+                        extractValue(s),
+                        chart.getPointColor(pointsInRangeOfwhitelisted.contains(run.getDisplayName()))))
                         .findFirst();
                 if (optPoint.isPresent()) {
                     list.add(optPoint.get());

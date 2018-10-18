@@ -22,14 +22,18 @@
                         label: "${chart.title}",
                                 fillColor: "${chart.color}",
                                 strokeColor: "${chart.color}",
-                                pointColor: "${chart.color}",
-                                pointStrokeColor: "#fff",
+                                pointStrokeColor: "#808080",
                                 pointHighlightFill: "#fff",
-                                pointHighlightStroke: "rgba(180,180,180,1)",
+                                pointHighlightStroke: "rgba(0,0,0,1)",
                                 data: [
                 <j:forEach var="build" items="${chart.points}" varStatus="status">
                     ${build.value}<j:if test="${!status.last}">,</j:if>
                 </j:forEach>
+                                ],
+                                coloredTips: [
+                <j:forEach var="build" items="${chart.points}" varStatus="status">
+                    "${build.pointColor}"<j:if test="${!status.last}">,</j:if>
+                </j:forEach>                
                                 ]
                         }
                         ]

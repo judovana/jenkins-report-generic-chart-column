@@ -23,6 +23,7 @@
  */
 package hudson.plugins.report.genericchart;
 
+import hudson.plugins.ColorChanger;
 import hudson.Extension;
 import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
@@ -139,4 +140,10 @@ public class ChartModel extends AbstractDescribableImpl<ChartModel> {
         return resultsWhiteList;
     }
 
+    public String getPointColor(boolean isInRangeOfWhiteListed) {
+        if (isInRangeOfWhiteListed) {
+            return ColorChanger.shiftColorBy(chartColor, 64, 64, 32);
+        }
+        return chartColor;
+    }
 }
