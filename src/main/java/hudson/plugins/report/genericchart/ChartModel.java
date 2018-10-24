@@ -47,7 +47,11 @@ public class ChartModel extends AbstractDescribableImpl<ChartModel> {
         this.fileNameGlob = fileNameGlob;
         this.key = key;
         this.limit = limit;
-        this.chartColor = chartColor;
+        if (chartColor == null || chartColor.isEmpty()) {
+            this.chartColor = ColorChanger.randomColor();
+        } else {
+            this.chartColor = chartColor;
+        }
         this.rangeAroundWlist = rangeAroundWlist;
     }
 
