@@ -23,6 +23,7 @@
  */
 package hudson.plugins.report.genericchart;
 
+import hudson.plugins.ColorChanger;
 import hudson.Extension;
 import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
@@ -46,7 +47,11 @@ public class ChartModel extends AbstractDescribableImpl<ChartModel> {
         this.fileNameGlob = fileNameGlob;
         this.key = key;
         this.limit = limit;
-        this.chartColor = chartColor;
+        if (chartColor == null || chartColor.isEmpty()) {
+            this.chartColor = ColorChanger.randomColor();
+        } else {
+            this.chartColor = chartColor;
+        }
         this.rangeAroundWlist = rangeAroundWlist;
     }
 
@@ -139,4 +144,11 @@ public class ChartModel extends AbstractDescribableImpl<ChartModel> {
         return resultsWhiteList;
     }
 
+    public String getPointColor(boolean isInRangeOfWhiteListed) {
+        if (isInRangeOfWhiteListed) {
+            //there is 32 because it slightly change shade of color so graph is more readable
+            return ColorChanger.shiftColorBy(chartColor, 64, 64, 32);
+        }
+        return chartColor;
+    }
 }

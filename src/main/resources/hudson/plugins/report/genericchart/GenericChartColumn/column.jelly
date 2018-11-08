@@ -31,7 +31,14 @@
                     <j:forEach var="build" items="${points}" varStatus="status">
                         ${build.value}<j:if test="${!status.last}">,</j:if>
                     </j:forEach>
-                                    ]}]
+                                ],
+                                coloredTips: [
+                    <j:forEach var="build" items="${points}" varStatus="status">
+                        "${build.pointColor}"<j:if test="${!status.last}">,</j:if>
+                    </j:forEach>
+                                ]
+                        }
+                        ]
                     };
                     var options = {
                         bezierCurve: false,
