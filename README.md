@@ -71,7 +71,7 @@ The limitations flows from double settings and from fact that each chart can sho
 Number of points before and after chosen point using whitelist. For example if you have whitelisted 3 and 4 and range is 2 graph will show points 1 2 3 4 5 6. Points in range have slightly changed color.
 ![selection_008](https://user-images.githubusercontent.com/11722903/48713596-08bcf300-ec11-11e8-9894-4e8445d612f9.png)
 Up is without whitelisted and range. Down is with whitelist (1.8.0.172.\*) and range (3).
-![selection_007](https://user-images.githubusercontent.com/11722903/48712917-46b91780-ec0f-11e8-9583-55aec84848a9.png)
+![selection_008](https://user-images.githubusercontent.com/11722903/48712892-37d26500-ec0f-11e8-92be-62acf31c6bdd.png)
 Up is withis with whitelist (1.8.0.172.\*) and range (3). Down is with whitelist (1.8.0.172.\*) and without range.
 ![selection_007](https://user-images.githubusercontent.com/11722903/48713581-fe9af480-ec10-11e8-898f-3ac208b809a8.png)
 ## Future work
