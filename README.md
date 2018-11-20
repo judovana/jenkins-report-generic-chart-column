@@ -53,13 +53,13 @@ you could noted, that the graphs are scalled.  Ifyou have run, which escapes the
 ## Project Settings
 Project settings and view settings are separate - with both pros and cons!
 
-![project settings](https://user-images.githubusercontent.com/11722903/45221578-e0fbf700-b27f-11e8-97f6-5d1f637bf05c.png)
+![selection_012](https://user-images.githubusercontent.com/11722903/48773059-8b53ba00-ecc6-11e8-84eb-c0bbdc7774c4.png)
 Most important is **Glob pattern for the report file to parse**, which lets you specify not absolute (glob) path to your properties file and of course **Key to look for in the report file** which tetls chart what value to render.  **Chart name** and **color** are  cosmetic, **blacklist** and **whitelist** were already described.  **Number of data points to show** is how many successful builds (counted from end) should be displayed.  If you are in doubts, each suspicious field have help.
 
 ## View Settings
 Project settings and view settings are separate - with both pros and cons!
 
-![view settings](https://user-images.githubusercontent.com/11722903/45221610-ff61f280-b27f-11e8-864e-7c12b9f23a2b.png)
+![selection_011](https://user-images.githubusercontent.com/11722903/48773095-a292a780-ecc6-11e8-9759-f0d4900fdc33.png)
 You can see that the settings of view are same - thus duplicated with all its pros and cons...
 
 ## Limitations
@@ -68,12 +68,12 @@ The limitations flows from double settings and from fact that each chart can sho
 
 ## Range around whitelisted
 
-Number of points before and after chosen point using whitelist. For example if you have whitelisted 3 and 4 and range is 2 graph will show points 1 2 3 4 5 6 if no one is failed. If some has failed for example 2 graph will show 1 3 4 5 6. That means failed builds are counted as passed. (TODO FIXME)
-![view settings](https://user-images.githubusercontent.com/11722903/45222412-82844800-b282-11e8-8b90-aea118a190fe.png)
-Up is without whitelisted and range. Down is with whitelist (1.8.0.172.\*) and range (2).
-![view settings](https://user-images.githubusercontent.com/11722903/45222438-97f97200-b282-11e8-92c9-b9634ecaf0ee.png)
-Up is withis with whitelist (1.8.0.172.\*) and range (2). Down is with whitelist (1.8.0.172.\*) and without range.
-![view settings](https://user-images.githubusercontent.com/11722903/45223712-ff64f100-b285-11e8-8ba0-3093338c0749.png)
+Number of points before and after chosen point using whitelist. For example if you have whitelisted 3 and 4 and range is 2 graph will show points 1 2 3 4 5 6.
+![selection_008](https://user-images.githubusercontent.com/11722903/48713596-08bcf300-ec11-11e8-9894-4e8445d612f9.png)
+Up is without whitelisted and range. Down is with whitelist (1.8.0.172.\*) and range (3).
+![selection_008](https://user-images.githubusercontent.com/11722903/48712892-37d26500-ec0f-11e8-92be-62acf31c6bdd.png)
+Up is with whitelist (1.8.0.172.\*) and range (3). Down is with whitelist (1.8.0.172.\*) and without range.
+![selection_007](https://user-images.githubusercontent.com/11722903/48713581-fe9af480-ec10-11e8-898f-3ac208b809a8.png)
 ## Future work
 We wish to improve whitelist/balcklist feature, so it can be used to generate wievs comparing selected runs across jobs with some kind of neigbrhood
 
