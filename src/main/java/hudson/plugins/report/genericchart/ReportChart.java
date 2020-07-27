@@ -47,14 +47,15 @@ public class ReportChart {
     }
 
     public static ReportChart createReportChart(ChartModel m, PropertiesParser parser, Job<?, ?> job) {
+        final ChartPointsWithBlacklist points = parser.getReportPointsWithBlacklist(job, m);
         return new ReportChart(
                 m.getTitle(),
                 m.getChartColor(),
-                parser.getReportPointsWithBlacklist(job, m).getPoints(),
-                parser.getReportPointsWithBlacklist(job, m).getBlacklist(),
-                parser.getReportPointsWithBlacklist(job, m).getWhitelist(),
+                points.getPoints(),
+                points.getBlacklist(),
+                points.getWhitelist(),
                 m.getRangeAroundWlist(),
-                parser.getReportPointsWithBlacklist(job, m).getWhiteListSizeWithoutSurroundings());
+                points.getWhiteListSizeWithoutSurroundings());
     }
 
     public String getTitle() {
