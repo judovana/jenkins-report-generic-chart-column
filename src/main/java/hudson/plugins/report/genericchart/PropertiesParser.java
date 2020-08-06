@@ -26,6 +26,7 @@ package hudson.plugins.report.genericchart;
 import hudson.model.Job;
 import hudson.model.Result;
 import hudson.model.Run;
+
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -110,19 +111,18 @@ public class PropertiesParser {
             }
             String[] items = provider.getList().split("\\s+");
             for (String item : items) {
-                if (!run.getDisplayName().matches(item)) {
-                    continue;
-                }
-                int numberOfFailedBuilds = 0;
-                for (int j = 0; j <= provider.getSurrounding() + numberOfFailedBuilds; j++) {
-                    if (addNotFailedBuild(i + j, result, builds)) {
-                        numberOfFailedBuilds++;
+                if (run.getDisplayName().matches(item)) {
+                    int numberOfFailedBuilds = 0;
+                    for (int j = 0; j <= provider.getSurrounding() + numberOfFailedBuilds; j++) {
+                        if (addNotFailedBuild(i + j, result, builds)) {
+                            numberOfFailedBuilds++;
+                        }
                     }
-                }
-                numberOfFailedBuilds = 0;
-                for (int j = -1; j >= -(provider.getSurrounding() + numberOfFailedBuilds); j--) {
-                    if (addNotFailedBuild(i + j, result, builds)) {
-                        numberOfFailedBuilds++;
+                    numberOfFailedBuilds = 0;
+                    for (int j = -1; j >= -(provider.getSurrounding() + numberOfFailedBuilds); j--) {
+                        if (addNotFailedBuild(i + j, result, builds)) {
+                            numberOfFailedBuilds++;
+                        }
                     }
                 }
             }
