@@ -26,6 +26,7 @@ package hudson.plugins.report.genericchart;
 import hudson.model.Job;
 import hudson.model.Result;
 import hudson.model.Run;
+
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -97,6 +98,9 @@ public class PropertiesParser {
     }
 
     private List<String> getList(Job<?, ?> job, ChartModel chart, ListProvider provider) {
+        if (provider.getList() != null && !provider.getList().trim().isEmpty()) {
+            return Collections.emptyList();
+        }
         int limit = chart.getLimit();
         Run[] builds = job.getBuilds().toArray(new Run[0]);
         List<String> result = new ArrayList<>(limit);
@@ -105,21 +109,19 @@ public class PropertiesParser {
             if (run.getResult() == null || run.getResult().isWorseThan(Result.UNSTABLE)) {
                 continue;
             }
-            if (provider.getList() != null && !provider.getList().trim().isEmpty()) {
-                String[] items = provider.getList().split("\\s+");
-                for (String item : items) {
-                    if (run.getDisplayName().matches(item)) {
-                        int numberOfFailedBuilds = 0;
-                        for (int j = 0; j <= provider.getSurrounding() + numberOfFailedBuilds; j++) {
-                            if (addNotFailedBuild(i + j, result, builds)) {
-                                numberOfFailedBuilds++;
-                            }
+            String[] items = provider.getList().split("\\s+");
+            for (String item : items) {
+                if (run.getDisplayName().matches(item)) {
+                    int numberOfFailedBuilds = 0;
+                    for (int j = 0; j <= provider.getSurrounding() + numberOfFailedBuilds; j++) {
+                        if (addNotFailedBuild(i + j, result, builds)) {
+                            numberOfFailedBuilds++;
                         }
-                        numberOfFailedBuilds = 0;
-                        for (int j = -1; j >= -(provider.getSurrounding() + numberOfFailedBuilds); j--) {
-                            if (addNotFailedBuild(i + j, result, builds)) {
-                                numberOfFailedBuilds++;
-                            }
+                    }
+                    numberOfFailedBuilds = 0;
+                    for (int j = -1; j >= -(provider.getSurrounding() + numberOfFailedBuilds); j--) {
+                        if (addNotFailedBuild(i + j, result, builds)) {
+                            numberOfFailedBuilds++;
                         }
                     }
                 }

@@ -1,8 +1,8 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
-    <td data="${it.getLatestResult(job)}">
+    <j:set var="points" value="${it.getReportPoints(job)}" />
+    <td data="${it.getLatestResult(points)}">
         <div>
-            <j:set var="points" value="${it.getReportPoints(job)}" />
             <j:set var="chartName" value="${it.generateChartName()}" />
             <j:if test="${points.isEmpty()}">
                 No data yet
