@@ -60,8 +60,7 @@ public class GenericChartColumn extends ListViewColumn {
         return new PropertiesParser().getReportPointsWithBlacklist(job, model).getPoints();
     }
 
-    public String getLatestResult(Job<?, ?> job) {
-        List<ChartPoint> results = getReportPoints(job);
+    public String getLatestResult(final List<ChartPoint> results) {
         if (!results.isEmpty()) {
             return results.get(results.size() - 1).getValue();
         } else {
