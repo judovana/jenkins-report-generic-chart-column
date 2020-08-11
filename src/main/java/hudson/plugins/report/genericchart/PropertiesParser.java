@@ -98,7 +98,7 @@ public class PropertiesParser {
     }
 
     private List<String> getList(Job<?, ?> job, ChartModel chart, ListProvider provider) {
-        if (provider.getList() != null && !provider.getList().trim().isEmpty()) {
+        if (provider.getList() == null || provider.getList().trim().isEmpty()) {
             return Collections.emptyList();
         }
         int limit = chart.getLimit();
