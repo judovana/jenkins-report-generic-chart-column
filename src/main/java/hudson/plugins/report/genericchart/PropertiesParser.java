@@ -23,6 +23,7 @@
  */
 package hudson.plugins.report.genericchart;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.model.Job;
 import hudson.model.Result;
 import hudson.model.Run;
@@ -35,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -97,6 +97,8 @@ public class PropertiesParser {
 
     }
 
+    @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE",
+            justification = "run.getResult().isWorseThan(Result.UNSTABLE) claims to have NPE, but I'm failing to see it")
     private List<String> getList(Job<?, ?> job, ChartModel chart, ListProvider provider) {
         if (provider.getList() == null || provider.getList().trim().isEmpty()) {
             return Collections.emptyList();
@@ -106,7 +108,9 @@ public class PropertiesParser {
         List<String> result = new ArrayList<>(limit);
         for (int i = 0; i < builds.length; i++) {
             Run run = builds[i];
-            if (run.getResult() == null || run.getResult().isWorseThan(Result.UNSTABLE)) {
+            if (run == null
+                            || run.getResult() == null
+                            || run.getResult().isWorseThan(Result.UNSTABLE)) {
                 continue;
             }
             String[] items = provider.getList().split("\\s+");
@@ -130,9 +134,14 @@ public class PropertiesParser {
         return result;
     }
 
+    @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE",
+            justification = "run.getResult().isWorseThan(Result.UNSTABLE) claims to have NPE, but I'm failing to see it")
     private boolean addNotFailedBuild(int position, List<String> result, Run[] builds) {
         if (position >= 0 && position < builds.length) {
-            boolean crashed = builds[position].getResult() == null || builds[position].getResult().isWorseThan(Result.UNSTABLE);
+            boolean crashed =
+                    builds[position] == null
+                            || builds[position].getResult() == null
+                            || builds[position].getResult().isWorseThan(Result.UNSTABLE);
             if (crashed) {
                 return true;
             }
@@ -147,6 +156,8 @@ public class PropertiesParser {
         return false;
     }
 
+    @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE",
+            justification = "run.getResult().isWorseThan(Result.UNSTABLE) claims to have NPE, but I'm failing to see it")
     public ChartPointsWithBlacklist getReportPointsWithBlacklist(Job<?, ?> job, ChartModel chart) {
         List<ChartPoint> list = new ArrayList<>();
 
@@ -177,7 +188,9 @@ public class PropertiesParser {
         int whiteListSizeWithoutSurroundings = whiteListWithoutSurroundings.toArray().length;
         pointsInRangeOfwhitelisted.removeAll(whiteListWithoutSurroundings);
         for (Run run : job.getBuilds()) {
-            if (run.getResult() == null || run.getResult().isWorseThan(Result.UNSTABLE)) {
+            if (run == null
+                            || run.getResult() == null
+                            || run.getResult().isWorseThan(Result.UNSTABLE)) {
                 continue;
             }
             if (blacklisted.contains(run.getDisplayName())) {
